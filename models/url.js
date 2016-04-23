@@ -1,11 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+
 var urlSchema = new Schema({
-  _id: {
-		type: Number,
-		index: true
-	},
+  id: false,
 
   long_url: {
 		type: String,
@@ -20,7 +18,7 @@ var urlSchema = new Schema({
   created_at: {
 		type: Date,
 		default: Date.now
-	}
+	},
 
 	image_url: {
 		type: String,
@@ -28,4 +26,7 @@ var urlSchema = new Schema({
 	}
 });
 
+
 var Url = mongoose.model('Url', urlSchema);
+
+module.exports = Url;
