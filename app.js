@@ -19,7 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, 'views/index.html'));
-	console.log(generator.generate());
 });
 
 app.post('/shorten', function(req, res){
@@ -36,7 +35,6 @@ app.post('/shorten', function(req, res){
 	while(unique == false){
  		shortUrl = generator.generate();
 		Url.findOne({short_url: shortUrl}, function (err, result){
-      console.log(result);
       verify = result;
 		});
     if(verify == null){
@@ -45,7 +43,7 @@ app.post('/shorten', function(req, res){
 }
       var newUrl = Url({
         long_url: longUrl,
-		short_url: shortUrl
+		    short_url: shortUrl
       });
 
       newUrl.save(function(err) {
@@ -59,8 +57,17 @@ app.post('/shorten', function(req, res){
   });
 });
 
+app.get('/:code', function(req, res){
+  var code = req.params.code;
 
-
+  Url.findOne({short_url: code}, function (err, doc){
+    if (doc) {
+      res.redirect("http://" + doc.long_url);
+    } else {
+      res.redirect(config.webhost);
+    }
+  });
+});
 
 var server = app.listen(3000, function(){
   console.log('Server listening on port 3000');
