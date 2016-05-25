@@ -6,6 +6,8 @@ var generator = require('./generator.js');
 var config = require('./config');
 var bodyParser = require('body-parser');
 var Url = require('./models/url');
+var Client = require('./models/client');
+var UAParser = require('ua-parser-js');
 
 mongoose.connect('mongodb://' + config.db.host + '/' + config.db.name);
 mongoose.connection.on('error', function(err) {
@@ -58,7 +60,33 @@ app.post('/shorten', function(req, res){
 });
 
 app.get('/:code', function(req, res){
+  console.log("aici");
   var code = req.params.code;
+  var parser = new UAParser();
+  var ua = req.headers['user-agent'];
+  var referrer = req.headers.referrer || req.headers.referer;
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  var browserName = parser.setUA(ua).getBrowser().name;
+  var fullBrowserVersion = parser.setUA(ua).getBrowser().version;
+  var browserVersion = fullBrowserVersion.split(".",1).toString();
+  var osName = parser.getOS().name;
+  var osVersion = parser.getOS().version;
+
+  var user = new Client({
+    code: code,
+    browser_name: browserName,
+    browser_version: browserVersion,
+    so_name: osName,
+    so_version: osVersion,
+    ip: ip,
+    referrer: referrer
+  });
+
+  user.save(function(err) {
+    if (err){
+      console.log(err);
+    }
+  });
 
   Url.findOne({short_url: code}, function (err, doc){
     if (doc) {
