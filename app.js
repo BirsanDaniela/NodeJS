@@ -90,11 +90,19 @@ app.get('/:code', function(req, res){
 
   Url.findOne({short_url: code}, function (err, doc){
     if (doc) {
-      res.redirect("http://" + doc.long_url);
+      res.redirect(doc.long_url);
     } else {
       res.redirect(config.webhost);
     }
   });
+});
+
+app.get('/admin/mostVisitedSite', function(req, res){
+  var urls;
+  urls = Url.find(function(err, doc){
+    urls = doc;
+  });
+  console.log(urls);
 });
 
 var server = app.listen(3000, function(){
