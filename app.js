@@ -100,13 +100,14 @@ app.get('/:code', function(req, res){
 
   Url.findOne({short_url: code}, function (err, doc){
     if (doc) {
-      res.redirect("http://" + doc.long_url);
+      res.redirect(doc.long_url);
     } else {
       res.redirect(config.webhost);
     }
   });
 });
 
+<<<<<<< HEAD
 app.post('/upload',function(req,res){
     upload(req,res,function(err) {
         if(err) {
@@ -114,6 +115,14 @@ app.post('/upload',function(req,res){
         }
         res.end("File is uploaded");
     });
+=======
+app.get('/admin/mostVisitedSite', function(req, res){
+  var urls;
+  urls = Url.find(function(err, doc){
+    urls = doc;
+  });
+  console.log(urls);
+>>>>>>> 275e2e96893cadaebbe2d1de68aa95cafe82d056
 });
 
 var server = app.listen(3000, function(){

@@ -10,7 +10,7 @@ var urlSchema = new Schema({
     required: 'Enter url'
 	},
 
-	short_url: {
+  short_url: {
 		type: String,
 		default: ''
 	},
@@ -20,7 +20,12 @@ var urlSchema = new Schema({
 		default: Date.now
 	},
 
-	image_url: {
+  image_url: {
+		type: String,
+		default: ''
+	},
+
+  title: {
 		type: String,
 		default: ''
 	}

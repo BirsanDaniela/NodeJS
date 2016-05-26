@@ -15,23 +15,23 @@
         <div class="container">
 
           <h1>Put you advert here!</h1>
-					</br> </br>
-          <div class="row">
+	</br> </br>
 
-            <div class="col-sm-12">
-              <div class="input-group input-group-lg">
-                <input id="url-field" type="text" class="form-control" placeholder="Your link...">
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-primary btn-shorten">Go!</button>
-                </span>
-              </div>
-            </div>
+
+	<form action="/upload", method="post", enctype="multipart/form-data">
+	Advert Tile: <input type="text" name="title"><br>
+        Your image: <input type="file" name="image"><br>
+	<input id="url-field" type="text" class="form-control" placeholder="Your link...">
+<button type="button" class="btn btn-primary btn-shorten">Get short url!</button>
+<br>
+        
 
             <div class="col-sm-12">
               <div id="link"></div>
             </div>
-
-          </div>
+	<input type="submit" value="Upload" class="btn btn-primary btn-shorten">  
+	
+	</form>
 
         </div>
 
