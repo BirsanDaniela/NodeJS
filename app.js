@@ -8,6 +8,16 @@ var bodyParser = require('body-parser');
 var Url = require('./models/url');
 var Client = require('./models/client');
 var UAParser = require('ua-parser-js');
+var multer  =   require('multer');
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + '-' + Date.now());
+  }
+});
+var upload = multer({ storage : storage}).single('image');
 
 mongoose.connect('mongodb://' + config.db.host + '/' + config.db.name);
 mongoose.connection.on('error', function(err) {
@@ -33,7 +43,7 @@ app.post('/shorten', function(req, res){
     }
     else {
 	var unique = false;
-  var verify;
+  	var verify;
 	while(unique == false){
  		shortUrl = generator.generate();
 		Url.findOne({short_url: shortUrl}, function (err, result){
@@ -45,7 +55,7 @@ app.post('/shorten', function(req, res){
 }
       var newUrl = Url({
         long_url: longUrl,
-		    short_url: shortUrl
+	short_url: shortUrl
       });
 
       newUrl.save(function(err) {
@@ -95,6 +105,15 @@ app.get('/:code', function(req, res){
       res.redirect(config.webhost);
     }
   });
+});
+
+app.post('/upload',function(req,res){
+    upload(req,res,function(err) {
+        if(err) {
+            return res.end("Error uploading file.");
+        }
+        res.end("File is uploaded");
+    });
 });
 
 var server = app.listen(3000, function(){
