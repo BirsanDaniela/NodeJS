@@ -43,10 +43,11 @@ app.post('/shorten', function(req, res){
     }
     else {
 	var unique = false;
-  	var verify;
+  var verify;
 	while(unique == false){
  		shortUrl = generator.generate();
 		Url.findOne({short_url: shortUrl}, function (err, result){
+      console.log(result);
       verify = result;
 		});
     if(verify == null){
@@ -55,7 +56,7 @@ app.post('/shorten', function(req, res){
 }
       var newUrl = Url({
         long_url: longUrl,
-	short_url: shortUrl
+		short_url: shortUrl
       });
 
       newUrl.save(function(err) {
@@ -64,10 +65,10 @@ app.post('/shorten', function(req, res){
         }
       });
     }
-});
     res.send({'shortUrl': config.webhost + shortUrl});
     res.end();
-  });
+    });
+});
 
 app.get('/:code', function(req, res){
   console.log("aici");
