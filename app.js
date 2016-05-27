@@ -73,6 +73,8 @@ app.post('/shorten', function(req, res){
 app.get('/:code', function(req, res){
   console.log("aici");
   var code = req.params.code;
+  console.log(code.length);
+  if(code.length == 5){
   var parser = new UAParser();
   var ua = req.headers['user-agent'];
   var referrer = req.headers.referrer || req.headers.referer;
@@ -98,10 +100,17 @@ app.get('/:code', function(req, res){
       console.log(err);
     }
   });
-
+}
   Url.findOne({short_url: code}, function (err, doc){
     if (doc) {
-      res.redirect(doc.long_url);
+      var urlToRedirect;
+      if(doc.long_url.substring(0, 3) == 'www'){
+        urlToRedirect = 'http://' + doc.long_url;
+      }
+        else {
+          urlToRedirect = doc.long_url
+        }
+        res.redirect(urlToRedirect);
     } else {
       res.redirect(config.webhost);
     }
@@ -123,9 +132,19 @@ app.get('/admin/mostVisitedSite', function(req, res){
   urls = Url.find(function(err, doc){
     urls = doc;
   });
-  console.log(urls);
-});
 
+  var agg = [
+   {$group: {
+     _id: "$code",
+     total: {$sum: 1}
+   }}
+ ];
+
+
+ Client.aggregate(agg, function(err, logs){
+   console.log(logs);
+ });
+});
 var server = app.listen(3000, function(){
   console.log('Server listening on port 3000');
 });
