@@ -21,7 +21,11 @@
 	<form action="/upload", method="post", enctype="multipart/form-data">
 	Advert Tile: <input type="text" name="title"><br>
         Your image: <input type="file" name="image"><br>
-	<input id="url-field" type="text" class="form-control" placeholder="Your link...">
+	<input id="url-field" type="text" class="form-control" placeholder="Your link..."/>
+	<input type="submit" value="Upload" name="submit">  
+	
+	</form>
+
 <button type="button" class="btn btn-primary btn-shorten">Get short url!</button>
 <br>
         
@@ -29,10 +33,6 @@
             <div class="col-sm-12">
               <div id="link"></div>
             </div>
-	<input type="submit" value="Upload" class="btn btn-primary btn-shorten">  
-	
-	</form>
-
         </div>
 
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>

@@ -64,10 +64,10 @@ app.post('/shorten', function(req, res){
         }
       });
     }
+});
     res.send({'shortUrl': config.webhost + shortUrl});
     res.end();
   });
-});
 
 app.get('/:code', function(req, res){
   console.log("aici");
@@ -114,6 +114,8 @@ app.post('/upload',function(req,res){
         }
         res.end("File is uploaded");
     });
+  });
+
 
 app.get('/admin/mostVisitedSite', function(req, res){
   var urls;
