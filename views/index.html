@@ -8,36 +8,41 @@
   <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
-<body>
+<body style="background-color:lightblue">
 
 
-
-        <div class="container">
+        <div class="container" >
 
           <h1>Put you advert here!</h1>
 	</br> </br>
-
+<div class="col-sm-12">
 
 	<form action="/upload", method="post", enctype="multipart/form-data">
-	Advert Tile: <input type="text" name="title"><br>
-        Your image: <input type="file" name="image"><br>
-	<input id="url-field" type="text" class="form-control" placeholder="Your link..."/>
-	<input type="submit" value="Upload" name="submit">  
+
+        Your image: <input id="image-field" type="file" name="file"><br>
+	
+	<input type="submit" value="Upload" class="btn btn-info btn-upload" >  
 	
 	</form>
+<br> <br>
 
-<button type="button" class="btn btn-primary btn-shorten">Get short url!</button>
-<br>
-        
+	<input id="url-field" type="text" class="form-control" placeholder="Your link...">
+	<br>
+	<button type="button" class="btn btn-primary btn-shorten">Get short Url!</button>
 
             <div class="col-sm-12">
               <div id="link"></div>
             </div>
+<br> <br> <br>
+
+	<a href="http://localhost:3000/admin/mostVisitedSite"><button type="input" class="btn btn-danger btn-shorten">Admin!</button></a>
+
+</div>
         </div>
 
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
- <script src="javascripts/shorten.js"></script>
+ <script src="javascripts/upload.js"></script>
 
 </body>
 </html>
