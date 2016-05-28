@@ -47,7 +47,6 @@ app.post('/shorten', function(req, res){
 	while(unique == false){
  		shortUrl = generator.generate();
 		Url.findOne({short_url: shortUrl}, function (err, result){
-      console.log(result);
       verify = result;
 		});
     if(verify == null){
@@ -71,9 +70,7 @@ app.post('/shorten', function(req, res){
 });
 
 app.get('/:code', function(req, res){
-  console.log("aici");
   var code = req.params.code;
-  console.log(code.length);
   if(code.length == 5){
   var parser = new UAParser();
   var ua = req.headers['user-agent'];
@@ -126,25 +123,29 @@ app.post('/upload',function(req,res){
     });
   });
 
+app.get('/admin/mostVisitedSite/data', function(req, res){
 
-app.get('/admin/mostVisitedSite', function(req, res){
-  var urls;
-  urls = Url.find(function(err, doc){
-    urls = doc;
-  });
-
+  var data;
   var agg = [
    {$group: {
      _id: "$code",
-     total: {$sum: 1}
-   }}
+     count: {$sum: 1}
+   }},
+  { "$sort": { "count": -1 } },
+  { "$limit": 3 }
  ];
 
 
- Client.aggregate(agg, function(err, logs){
-   console.log(logs);
+ Client.aggregate(agg, function(err, doc){
+   res.send({'data': doc});
+   res.end();
  });
 });
+
+app.get('/admin/mostVisitedSite', function(req, res){
+  res.sendFile(path.join(__dirname, 'views/admin.html'));
+});
+
 var server = app.listen(3000, function(){
   console.log('Server listening on port 3000');
 });
